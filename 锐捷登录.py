@@ -2,8 +2,8 @@
 # -*-coding:utf-8-*-
 import requests
 
-USERNAME = '你的学号'
-PASSWORD = '你的密码'
+USERNAME = '2017081162'
+PASSWORD = 'HDD050267a'
 SERVICE = r'%E7%A7%BB%E5%8A%A8'
 CAPTIVE_SERVER = r'http://www.google.cn/generate_204'
 
@@ -34,14 +34,16 @@ def login(response):
         data=login_post_data,
         headers=headers
     )
-    print(login_result.content.decode('utf-8'))
+
+    res = login_result.content.decode('utf-8')
+    print(res)
+    return res
 
 
 if __name__ == '__main__':
     captive_server_response = get_captive_server_response()
-    if captive_server_response.status_code != 204:
+    while captive_server_response.status_code != 204:
         # Login when user is offline
         login(captive_server_response)
-    else:
-        # Exit script when user is online
-        print('You are already online.')
+        captive_server_response = get_captive_server_response()
+    print('You are already online.')

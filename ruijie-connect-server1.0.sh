@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 #Exit the script when is already online, use www.google.cn/generate_204 to check the online status
 # captiveReturnCode=`curl -s -I -m 10 -o /dev/null -s -w %{http_code} http://www.google.cn/generate_204`
@@ -25,39 +25,99 @@ help(){
 	echo ''
 	
 	echo 'Please input bellow parameters:'
-    echo "-u    user account"
-    echo "-p    password"
-    exit 0 
+    echo "-u, account     user account."
+    echo "-p, password    password."
+    echo "-s, save        if .cache is None, save login informations in ./.cache, else update infors."
 
+    exit 0 # shell shutdown
 }
 
-if [ -z "$1" ]; then
-	help
-fi
-
+# help infos
 case "$1" in
     -h|--help|?)
-	help   
+	help
 ;;
 esac
 
-while getopts "u:p:" opt;do
+
+check(){
+    if [ -z "$userId" ]; then
+        echo "ERROR -u: user ID is None!"
+        exit 0
+    # else
+    #     echo "Current userId is $userId."
+    fi
+
+    if [ -z "$password" ]; then
+        echo "ERROR -p: Password is None!"
+        exit 0
+    # else
+    #     echo "Current password is $password."
+    fi
+}
+
+
+getdir(){
+    local workdir=$(cd $(dirname $1); pwd)
+    echo $workdir/.cache
+
+    return $?
+}
+
+savecache(){
+    # $1 save path
+    # $2 account 
+    # $3 password
+    check
+
+    # if file not exists, create it
+    if [ ! -e $1 ]; then
+        touch $1
+    fi
+
+    # overwrite
+    echo "userId=$2" > $1
+    echo "password=$3" >> $1
+}
+
+loadcache(){
+    if [ -e $1 ]; then
+        source $1
+    else
+        userId=''
+        password=''
+    fi
+}
+
+
+# read cache file
+cachepath=$(getdir $0)
+
+# if input parameters is None, go to read cache file
+if [ -z "$1" ]; then
+	loadcache $cachepath
+fi
+
+
+while getopts "u:p:s" opt; do
 	case $opt in
-		u) userId=${OPTARG};;
-		p) password=${OPTARG};; 
+		u) 
+        userId=${OPTARG}
+        # echo "read userId $userId"
+        ;;
+		p) 
+        password=${OPTARG}
+        # echo "read password $password"
+        ;;
+        s) 
+        # echo "save cache file"
+        savecache $cachepath $userId $password
+        ;;
 	esac
 done
 
-if [ -z "$userId" ]; then
-	echo "-u: user ID is None!"
-	exit 0
-fi
-
-if [ -z "$password" ]; then
-	echo "-p: Password is None!"
-	exit 0
-fi
-
+# check userId and password
+check
 
 
 while true;
@@ -69,6 +129,7 @@ while true;
       echo "${SDATE} Already online!"
       sleep 600
       continue
+
     fi
     loginPageURL=`curl -s "http://www.google.cn/generate_204" | awk -F \' '{print $2}'`
 

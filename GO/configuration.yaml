@@ -1,0 +1,7 @@
+UserId: 3210706055
+Password: 2441086385dlf
+Service: 1 # 1 移动 2联通 3电信 4校园网
+TimeInterval: 600
+LogPath:
+LogSaveDay:
+LogClearDay:

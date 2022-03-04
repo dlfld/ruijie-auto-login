@@ -1,7 +1,7 @@
 package utils
 
 import (
-	"GO/pojo"
+	"GO/src/pojo"
 	"bytes"
 	"fmt"
 	"github.com/kirinlabs/HttpRequest"
@@ -58,7 +58,7 @@ func Post(url string, data pojo.UserData) *HttpRequest.Response {
 		"passwordEncrypt": "false",
 	}
 	resp, _ := req.Post(url, postData)
-	body, _ := resp.Body()
-	fmt.Println(string(body))
+	//body, _ := resp.Body()
+	//fmt.Println(string(body))
 	return resp
 }

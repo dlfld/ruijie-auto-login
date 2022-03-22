@@ -1,0 +1,7 @@
+UserId: 
+Password: 
+Service: edu # 1 移动 2联通 3电信 4校园网
+TimeInterval: 5
+LogPath: ruijie.log
+LogSaveDay:
+LogClearDay:

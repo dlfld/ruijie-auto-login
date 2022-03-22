@@ -4,10 +4,11 @@ import (
 	"GO/src/pojo"
 	"bytes"
 	"fmt"
-	"github.com/kirinlabs/HttpRequest"
 	"io"
 	"net/http"
 	"time"
+
+	"github.com/kirinlabs/HttpRequest"
 )
 
 // Get 发送GET请求
@@ -36,10 +37,10 @@ func Get(url string) (string, int) {
 }
 
 // Post 发送登陆的Post请求
-func Post(url string, data pojo.UserData) *HttpRequest.Response {
+func Post(url string, data *pojo.UserData) *HttpRequest.Response {
 	req := HttpRequest.NewRequest()
 	//	格式化cookie
-	Cookie := fmt.Sprintf("EPORTAL_USER_GROUP=null; EPORTAL_COOKIE_OPERATORPWD=; EPORTAL_COOKIE_DOMAIN=false; EPORTAL_COOKIE_SAVEPASSWORD=true; EPORTAL_COOKIE_USERNAME=%s; EPORTAL_COOKIE_PASSWORD=%s; EPORTAL_COOKIE_SERVER=%s; EPORTAL_COOKIE_SERVER_NAME=%s; EPORTAL_AUTO_LAND=true; JSESSIONID=9F5310BE6D56FAF15D3A98772E2F0769", data.UserId, data.Password, data.Service)
+	Cookie := fmt.Sprintf("EPORTAL_USER_GROUP=null; EPORTAL_COOKIE_OPERATORPWD=; EPORTAL_COOKIE_DOMAIN=false; EPORTAL_COOKIE_SAVEPASSWORD=true; EPORTAL_COOKIE_USERNAME=%s; EPORTAL_COOKIE_PASSWORD=%s; EPORTAL_COOKIE_SERVER=%s; EPORTAL_COOKIE_SERVER_NAME=%s; EPORTAL_AUTO_LAND=true; JSESSIONID=9F5310BE6D56FAF15D3A98772E2F0769", data.UserId, data.Password, data.Server, data.Server)
 	req.SetHeaders(map[string]string{
 		"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8", //这也是HttpRequest包的默认设置
 		"Accept":       "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8",
@@ -50,7 +51,7 @@ func Post(url string, data pojo.UserData) *HttpRequest.Response {
 	postData := map[string]interface{}{
 		"userId":          data.UserId,
 		"password":        data.Password,
-		"service":         data.Service,
+		"service":         data.Server,
 		"queryString":     data.QueryString,
 		"operatorPwd":     "",
 		"validcode":       "",

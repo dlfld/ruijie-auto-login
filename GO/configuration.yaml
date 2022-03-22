@@ -2,6 +2,6 @@ UserId: 你的学号
 Password: 你的密码
 Service: 2 # 1 移动 2联通 3电信 4校园网
 TimeInterval: 600
-LogPath:
+LogPath: ruijie.log
 LogSaveDay:
 LogClearDay:

@@ -1,42 +1,59 @@
 package main
 
 import (
-	"GO/src/pojo"
-	utils2 "GO/src/utils"
+	"fmt"
 	"strings"
 	"time"
+
+	ruijielogger "GO/src/logger"
+	pojo "GO/src/pojo"
+	utils2 "GO/src/utils"
 )
 
+// type ConfigData struct {
+// 	UserId       string `yaml:"UserId"`
+// 	Password     string `yaml:"Password"`
+// 	Service      string `yaml:"Service"`
+// 	TimeInterval int    `yaml:"TimeInterval"`
+// 	LogPath      string `yaml:"LogPath"`
+// 	LogSaveDay   int    `yaml:"LogSaveDay"`
+// 	LogClearDay  int    `yaml:"LogClearDay"`
+// }
+
 func main() {
-	utils2.ReadConfig()
-	resString, resCode := utils2.Get("http://www.google.cn/generate_204")
+	config := utils2.ReadConfig()
+	logger := ruijielogger.NewRuijieLogger(config.LogPath, config.LogSaveDay, config.LogClearDay)
+
+	// if config.TimeInterval < (60 * 3) {
+	// 	config.TimeInterval = 60 * 3 // sleep 3 minutes
+	// }
+
 	for {
+		resString, resCode := utils2.Get("http://www.google.cn/generate_204")
 		for resCode != 204 {
 			loginpageUrl := strings.Split(resString, "'")[1]
 			loginUrl := strings.ReplaceAll(strings.Split(loginpageUrl, "?")[0], "index.jsp", "InterFace.do?method=login")
 			queryString := strings.Split(loginpageUrl, "?")[1]
 			queryString = strings.ReplaceAll(queryString, "&", "%2526")
 			queryString = strings.ReplaceAll(queryString, "=", "%253D")
-			config := utils2.ReadConfig()
-			//service转换
-			serviceMap := map[string]string{
-				"1": "%E7%A7%BB%E5%8A%A8t",         //移动
-				"2": "%E8%81%94%E9%80%9A",          //联通
-				"3": "%E7%94%B5%E4%BF%A1",          //电信
-				"4": "%E6%A0%A1%E5%9B%AD%E7%BD%91", //校园网
-			}
-			utils2.Post(loginUrl, pojo.UserData{
+
+			//transformer config.server to Standard Server Name
+			serverCode := utils2.GetServiceCode(&config.Server)
+
+			utils2.Post(loginUrl, &pojo.UserData{
 				UserId:      config.UserId,
 				Password:    config.Password,
-				Service:     serviceMap[config.Service],
+				Server:      serverCode,
 				QueryString: queryString,
 			})
-			print("链接了一次网络\n")
+			logger.Log(fmt.Sprintf("Try connect to %s with User %s", config.Server, config.UserId))
 			resString, resCode = utils2.Get("http://www.google.cn/generate_204")
-			time.Sleep(1 * 100000000)
+			time.Sleep(time.Duration(config.TimeInterval) * time.Second)
+			logger.Log("Get below infos: ")
+			logger.Log(resString)
+			logger.Log(fmt.Sprintf("ResCode: %d", resCode))
 		}
-		resString, resCode = utils2.Get("http://www.google.cn/generate_204")
-		print("当前设备已经在线\n")
-		time.Sleep(60 * 1000000000)
+		logger.Log("Already online.")
+		time.Sleep(time.Duration(config.TimeInterval) * time.Second)
 	}
 }

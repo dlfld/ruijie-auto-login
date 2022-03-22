@@ -4,7 +4,7 @@ package pojo
 type UserData struct {
 	UserId      string
 	Password    string
-	Service     string
+	Server      string
 	QueryString string
 }
 
@@ -12,7 +12,7 @@ type UserData struct {
 type ConfigData struct {
 	UserId       string `yaml:"UserId"`
 	Password     string `yaml:"Password"`
-	Service      string `yaml:"Service"`
+	Server       string `yaml:"Service"`
 	TimeInterval int    `yaml:"TimeInterval"`
 	LogPath      string `yaml:"LogPath"`
 	LogSaveDay   int    `yaml:"LogSaveDay"`

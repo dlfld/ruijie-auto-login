@@ -15,7 +15,7 @@ type RuijieLogger struct {
 	Logger    *go_logger.Logger //go-logger
 }
 
-// Init RuijieLogger
+// NewRuijieLogger Init RuijieLogger
 func NewRuijieLogger(logpath string,
 	timeclear int) *RuijieLogger {
 

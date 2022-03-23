@@ -12,9 +12,8 @@ type UserData struct {
 type ConfigData struct {
 	UserId       string `yaml:"UserId"`
 	Password     string `yaml:"Password"`
-	Server       string `yaml:"Service"`
+	Server       string `yaml:"Server"`
 	TimeInterval int    `yaml:"TimeInterval"`
 	LogPath      string `yaml:"LogPath"`
-	LogSaveDay   int    `yaml:"LogSaveDay"`
 	LogClearDay  int    `yaml:"LogClearDay"`
 }

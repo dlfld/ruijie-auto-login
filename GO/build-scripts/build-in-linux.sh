@@ -1,6 +1,6 @@
 #! /bin/bash
 
-TAG='1.3'
+TAG='1.3.1'
 case "$1" in
     -t|--tag) TAG=$2;;
 esac

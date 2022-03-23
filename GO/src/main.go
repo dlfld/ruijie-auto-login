@@ -22,11 +22,15 @@ import (
 
 func main() {
 	config := utils2.ReadConfig()
-	logger := ruijielogger.NewRuijieLogger(config.LogPath, config.LogSaveDay, config.LogClearDay)
+	logger := ruijielogger.NewRuijieLogger(config.LogPath, config.LogClearDay)
+	logger.Log("Start RuijieAL")
+	logger.Log("User:" + config.UserId)
+	logger.Log("Password:" + config.Password)
+	logger.Log("LogPath:" + config.LogPath)
 
-	// if config.TimeInterval < (60 * 3) {
-	// 	config.TimeInterval = 60 * 3 // sleep 3 minutes
-	// }
+	if config.TimeInterval < (60 * 3) {
+		config.TimeInterval = 60 * 3 // sleep 3 minutes
+	}
 
 	for {
 		resString, resCode := utils2.Get("http://www.google.cn/generate_204")

@@ -4,8 +4,10 @@ import (
 	"GO/src/pojo"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"os"
 	"path"
+	"path/filepath"
 
 	"gopkg.in/yaml.v2"
 )
@@ -13,23 +15,32 @@ import (
 // ReadConfig 读取配置文件为结构体
 func ReadConfig() pojo.ConfigData {
 	var ConfigPojo pojo.ConfigData
-	wd, _ := os.Getwd()
-	dc := path.Join(wd, "configuration.yaml")
+
+	abs_app, err := os.Executable() // get application location
+	if err != nil {
+		log.Fatalln(err)
+	}
+	abs_wd, _ := filepath.EvalSymlinks(filepath.Dir(abs_app)) // get floder has the executabel application
+
+	dc := path.Join(abs_wd, "configuration.yaml")
+
 	config, err := ioutil.ReadFile(dc)
 	if err != nil {
-		fmt.Print(err)
+		fmt.Println(err)
 	}
 	err1 := yaml.Unmarshal(config, &ConfigPojo)
 	if err1 != nil {
-		fmt.Println("error")
+		fmt.Println(err1)
 	}
 
 	// empty LogPath
 	if ConfigPojo.LogPath == "" {
 		// str_now := GetNowTimeString()
 		// ConfigPojo.LogPath = fmt.Sprintf("./ruijie.log")
-		ConfigPojo.LogPath = "./ruijie.log"
+		ConfigPojo.LogPath = "ruijie.log"
 	}
+
+	ConfigPojo.LogPath = path.Join(abs_wd, ConfigPojo.LogPath)
 
 	// empty LogPath
 	// if ConfigPojo.LogSaveDay == nil {

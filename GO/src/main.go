@@ -7,23 +7,19 @@ import (
 
 	ruijielogger "GO/src/logger"
 	pojo "GO/src/pojo"
+	configUtils "GO/src/service"
 	utils2 "GO/src/utils"
 )
 
-// type ConfigData struct {
-// 	UserId       string `yaml:"UserId"`
-// 	Password     string `yaml:"Password"`
-// 	Service      string `yaml:"Service"`
-// 	TimeInterval int    `yaml:"TimeInterval"`
-// 	LogPath      string `yaml:"LogPath"`
-// 	LogSaveDay   int    `yaml:"LogSaveDay"`
-// 	LogClearDay  int    `yaml:"LogClearDay"`
-// }
-
 func main() {
+	//开始运行的时候检测是否还有配置文件，如果有的话就直接运行，如果没有的话就生成配置文件并提醒用户重新运行
+	haveConfig := configUtils.DetectConfig()
+	if !haveConfig {
+		print("配置文件已生成，请填写配置之后重启该软件。\n")
+		return
+	}
 	config := utils2.ReadConfig()
 	logger := ruijielogger.NewRuijieLogger(config.LogPath, config.LogSaveDay, config.LogClearDay)
-
 	for {
 		resString, resCode := utils2.Get("http://www.google.cn/generate_204")
 		for resCode != 204 {

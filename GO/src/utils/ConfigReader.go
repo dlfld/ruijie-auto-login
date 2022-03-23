@@ -3,13 +3,12 @@ package utils
 import (
 	"GO/src/pojo"
 	"fmt"
+	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
 	"path/filepath"
-
-	"gopkg.in/yaml.v2"
 )
 
 // ReadConfig 读取配置文件为结构体

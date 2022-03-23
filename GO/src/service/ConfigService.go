@@ -7,11 +7,6 @@ import (
 	"io/ioutil"
 )
 
-func writeYaml(src string, config pojo.ConfigData) {
-	data, _ := yaml.Marshal(config) // 第二个表示每行的前缀，这里不用，第三个是缩进符号，这里用tab
-	ioutil.WriteFile(src, data, 0777)
-}
-
 // DetectConfig 检测是否有配置文件，如果有的话就返回true，如果没有的话就创建配置文件并返回false
 func DetectConfig() bool {
 	src := "configuration.yaml"

@@ -1,6 +1,0 @@
-UserId: 你的学号
-Password: 对应的密码
-Server: '# 1 移动 2联通 3电信 4校园网'
-TimeInterval: 600
-LogPath: ruijie
-LogClearDay: 1

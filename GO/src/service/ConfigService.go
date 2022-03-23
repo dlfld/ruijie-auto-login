@@ -5,11 +5,19 @@ import (
 	"GO/src/utils"
 	"gopkg.in/yaml.v2"
 	"io/ioutil"
+	"log"
+	"os"
+	"path/filepath"
 )
 
 // DetectConfig 检测是否有配置文件，如果有的话就返回true，如果没有的话就创建配置文件并返回false
 func DetectConfig() bool {
-	src := "configuration.yaml"
+	abs_app, err := os.Executable() // get application location
+	if err != nil {
+		log.Fatalln(err)
+	}
+	abs_wd, _ := filepath.EvalSymlinks(filepath.Dir(abs_app)) // get floder has the executabel application
+	src := abs_wd + "/configuration.yaml"
 	exists, _ := utils.FileExists(src)
 	if exists {
 		return true

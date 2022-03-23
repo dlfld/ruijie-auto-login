@@ -16,9 +16,15 @@ func DetectConfig() bool {
 	if err != nil {
 		log.Fatalln(err)
 	}
-	abs_wd, _ := filepath.EvalSymlinks(filepath.Dir(abs_app)) // get floder has the executabel application
+	abs_wd, err := filepath.EvalSymlinks(filepath.Dir(abs_app)) // get floder has the executabel application
+	if err != nil {
+		log.Fatalln(err)
+	}
 	src := abs_wd + "/configuration.yaml"
-	exists, _ := utils.FileExists(src)
+	exists, err := utils.FileExists(src)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	if exists {
 		return true
 	}
@@ -33,7 +39,10 @@ func DetectConfig() bool {
 		LogPath:      "ruijie",
 		LogClearDay:  1,
 	}
-	data, _ := yaml.Marshal(configData)
+	data, err := yaml.Marshal(configData)
+	if err != nil {
+		log.Fatalln(err)
+	}
 	ioutil.WriteFile(src, data, 0777)
 	return false
 }

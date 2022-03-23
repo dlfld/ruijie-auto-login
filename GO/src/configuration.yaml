@@ -3,5 +3,4 @@ Password: LJC145216
 Server: 2 # 1 移动 2联通 3电信 4校园网
 TimeInterval: 3
 LogPath: ruijie
-LogSaveDay:
 LogClearDay: 1

@@ -10,15 +10,13 @@ import (
 )
 
 type RuijieLogger struct {
-	TimeBackup int               // backup logs
-	TimeClear  int               // clear logs
-	LogPath    string            //log path
-	Logger     *go_logger.Logger //go-logger
+	TimeClear int               // clear logs
+	LogPath   string            //log path
+	Logger    *go_logger.Logger //go-logger
 }
 
 // Init RuijieLogger
 func NewRuijieLogger(logpath string,
-	timebackup int,
 	timeclear int) *RuijieLogger {
 
 	// if !strings.Contains(logpath, ".log") {
@@ -55,10 +53,9 @@ func NewRuijieLogger(logpath string,
 	logger.Attach("file", go_logger.LOGGER_LEVEL_DEBUG, fileConfig)
 
 	return &RuijieLogger{
-		TimeBackup: timebackup,
-		TimeClear:  timeclear,
-		LogPath:    logpath,
-		Logger:     logger,
+		TimeClear: timeclear,
+		LogPath:   logpath,
+		Logger:    logger,
 	}
 }
 
@@ -85,22 +82,6 @@ func (ruijieLogger *RuijieLogger) Log(info string) {
 			ruijieLogger.Logger.Info(fmt.Sprintf("Delete %s", filepath_log))
 		}
 	}
-
-	// Not need split log file. Log file will be splited by go_logger automatically.
-	// if IsExistsLog(ruijieLogger.LogPath, str_backup) {
-	// 	path_old_log := fmt.Sprintf("%s.%s", ruijieLogger.LogPath, str_backup)
-
-	// 	// backup current log
-	// 	goLogger := go_logger.NewLogger()
-	// 	fileConfig := &go_logger.FileConfig{
-	// 		Filename:   ruijieLogger.LogPath, // 日志输出文件名，不自动存在
-	// 		JsonFormat: false,        // 写入文件的数据是否 json 格式化
-	// 	}
-	// 	goLogger.Attach("RuijieLog", go_logger.LOGGER_LEVEL_DEBUG, fileConfig)
-	// 	ruijieLogger.Logger = goLogger // update new go_logger
-
-	// 	ruijieLogger.Logger.Info(fmt.Sprintf("Backup history to %s", path_old_log))
-	// }
 
 	ruijieLogger.Logger.Info(info)
 }

@@ -19,9 +19,6 @@ func main() {
 		return
 	}
 	config := utils2.ReadConfig()
-<<<<<<< HEAD
-	logger := ruijielogger.NewRuijieLogger(config.LogPath, config.LogSaveDay, config.LogClearDay)
-=======
 	logger := ruijielogger.NewRuijieLogger(config.LogPath, config.LogClearDay)
 	logger.Log("Start RuijieAL")
 	logger.Log("User:" + config.UserId)
@@ -32,7 +29,6 @@ func main() {
 		config.TimeInterval = 60 * 3 // sleep 3 minutes
 	}
 
->>>>>>> 7de7aa138e0ef970e55ae3c6a4dd6d94a8fd2887
 	for {
 		resString, resCode := utils2.Get("http://www.google.cn/generate_204")
 		for resCode != 204 {

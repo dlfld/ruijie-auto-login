@@ -1,6 +1,6 @@
 UserId: 
 Password: 
-Server: 
+Server: edu
 TimeInterval: 600
 LogPath: ral.log
 LogClearDay: 1

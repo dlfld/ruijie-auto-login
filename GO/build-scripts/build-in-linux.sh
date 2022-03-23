@@ -1,11 +1,15 @@
 #! /bin/bash
 
-# fix bug:
-# cannot use absolution path
+# 1.3.3:
+# if config not exists, create it 
 
-TAG='1.3.2'
+TAG='latest'
 case "$1" in
-    -t|--tag) TAG=$2;;
+    -t|--tag) {
+        if [ -n "$2" ]; then 
+            TAG=$2 
+        fi
+    };;
 esac
 
 dir_cur=`dirname $0`
@@ -39,6 +43,11 @@ for os in ${lst_os[@]}; do
         
         # build failed
         if [ -f ${output_file} ]; then
+            # remove exists zip
+            if [ -f ${zip_base_name}.zip ]; then
+                rm ${zip_base_name}.zip
+            fi
+
             zip ${zip_base_name}.zip ${path_config} ${output_file}
             rm ${output_file}
         fi

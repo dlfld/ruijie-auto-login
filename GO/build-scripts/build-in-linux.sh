@@ -1,6 +1,9 @@
 #! /bin/bash
 
-TAG='1.3.1'
+# fix bug:
+# cannot use absolution path
+
+TAG='1.3.2'
 case "$1" in
     -t|--tag) TAG=$2;;
 esac

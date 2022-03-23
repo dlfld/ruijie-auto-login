@@ -8,4 +8,7 @@
 # Local History for Visual Studio Code
 .history/
 go.mod
+go.sum
 **/.idea/
+
+GO/output/ruijie*.zip

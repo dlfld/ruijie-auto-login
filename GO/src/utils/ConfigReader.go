@@ -3,12 +3,13 @@ package utils
 import (
 	"GO/src/pojo"
 	"fmt"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"path"
 	"path/filepath"
+
+	"gopkg.in/yaml.v2"
 )
 
 // ReadConfig 读取配置文件为结构体
@@ -46,6 +47,20 @@ func ReadConfig() pojo.ConfigData {
 	// 	str_now := GetNowTimeString()
 	// 	ConfigPojo.LogSaveDay = fmt.Sprintf("./ruijie.log.%s", str_now)
 	// }
+
+	// empty Server
+	if ConfigPojo.Server == "" {
+		// str_now := GetNowTimeString()
+		// ConfigPojo.LogPath = fmt.Sprintf("./ruijie.log")
+		ConfigPojo.Server = "edu"
+	}
+
+	// empty TimeInterval
+	if ConfigPojo.TimeInterval == 0 {
+		// str_now := GetNowTimeString()
+		// ConfigPojo.LogPath = fmt.Sprintf("./ruijie.log")
+		ConfigPojo.TimeInterval = 600
+	}
 
 	return ConfigPojo
 }

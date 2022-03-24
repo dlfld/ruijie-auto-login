@@ -3,11 +3,12 @@ package service
 import (
 	"GO/src/pojo"
 	"GO/src/utils"
-	"gopkg.in/yaml.v2"
 	"io/ioutil"
 	"log"
 	"os"
 	"path/filepath"
+
+	"gopkg.in/yaml.v2"
 )
 
 // DetectConfig 检测是否有配置文件，如果有的话就返回true，如果没有的话就创建配置文件并返回false
@@ -32,11 +33,11 @@ func DetectConfig() bool {
 	print("未检测到配置文件，正在生成配置文件。。。。\n")
 
 	configData := &pojo.ConfigData{
-		UserId:       "你的学号",
-		Password:     "对应的密码",
-		Server:       "# 1 移动 2联通 3电信 4校园网",
+		UserId:       "",
+		Password:     "",
+		Server:       "",
 		TimeInterval: 600,
-		LogPath:      "ruijie",
+		LogPath:      "ral.log",
 		LogClearDay:  1,
 	}
 	data, err := yaml.Marshal(configData)

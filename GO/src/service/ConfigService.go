@@ -21,6 +21,7 @@ func DetectConfig() bool {
 	if err != nil {
 		log.Fatalln(err)
 	}
+
 	src := abs_wd + "/configuration.yaml"
 	exists, err := utils.FileExists(src)
 	if err != nil {
@@ -36,7 +37,7 @@ func DetectConfig() bool {
 		UserId:       "",
 		Password:     "",
 		Server:       "",
-		TimeInterval: 600,
+		TimeInterval: 60,
 		LogPath:      "ral.log",
 		LogClearDay:  1,
 	}

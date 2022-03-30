@@ -25,12 +25,12 @@ func main() {
 	logger.Log("Password:" + config.Password)
 	logger.Log("LogPath:" + config.LogPath)
 
-	if config.TimeInterval < (60 * 3) {
-		config.TimeInterval = 60 * 3 // sleep 3 minutes
-	}
-
+	//if config.TimeInterval < (60 * 3) {
+	//	config.TimeInterval = 60 * 3 // sleep 3 minutes
+	//}
 	for {
 		resString, resCode := utils2.Get("http://www.google.cn/generate_204")
+		print(resCode)
 		for resCode != 204 {
 			loginpageUrl := strings.Split(resString, "'")[1]
 			loginUrl := strings.ReplaceAll(strings.Split(loginpageUrl, "?")[0], "index.jsp", "InterFace.do?method=login")

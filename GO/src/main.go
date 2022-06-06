@@ -40,7 +40,7 @@ func main() {
 
 			//transformer config.server to Standard Server Name
 			serverCode := utils2.GetServiceCode(&config.Server)
-
+			//loginUrl = "http://10.254.241.19/eportal/InterFace.do?method=login"
 			utils2.Post(loginUrl, &pojo.UserData{
 				UserId:      config.UserId,
 				Password:    config.Password,
@@ -49,7 +49,7 @@ func main() {
 			})
 			logger.Log(fmt.Sprintf("Try connect to %s with User %s", config.Server, config.UserId))
 			resString, resCode = utils2.Get("http://www.google.cn/generate_204")
-			time.Sleep(time.Duration(config.TimeInterval) * time.Second)
+			//time.Sleep(time.Duration(config.TimeInterval) * time.Second)
 			logger.Log("Get below infos: ")
 			logger.Log(resString)
 			logger.Log(fmt.Sprintf("ResCode: %d", resCode))

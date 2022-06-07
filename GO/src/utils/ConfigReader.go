@@ -35,30 +35,17 @@ func ReadConfig() pojo.ConfigData {
 
 	// empty LogPath
 	if ConfigPojo.LogPath == "" {
-		// str_now := GetNowTimeString()
-		// ConfigPojo.LogPath = fmt.Sprintf("./ruijie.log")
 		ConfigPojo.LogPath = "ruijie.log"
 	}
-
 	ConfigPojo.LogPath = path.Join(abs_wd, ConfigPojo.LogPath)
-
-	// empty LogPath
-	// if ConfigPojo.LogSaveDay == nil {
-	// 	str_now := GetNowTimeString()
-	// 	ConfigPojo.LogSaveDay = fmt.Sprintf("./ruijie.log.%s", str_now)
-	// }
 
 	// empty Server
 	if ConfigPojo.Server == "" {
-		// str_now := GetNowTimeString()
-		// ConfigPojo.LogPath = fmt.Sprintf("./ruijie.log")
 		ConfigPojo.Server = "edu"
 	}
 
 	// empty TimeInterval
 	if ConfigPojo.TimeInterval == 0 {
-		// str_now := GetNowTimeString()
-		// ConfigPojo.LogPath = fmt.Sprintf("./ruijie.log")
 		ConfigPojo.TimeInterval = 600
 	}
 

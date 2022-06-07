@@ -37,7 +37,7 @@ func DetectConfig() bool {
 		UserId:       "",
 		Password:     "",
 		Server:       "",
-		TimeInterval: 60,
+		TimeInterval: 600,
 		LogPath:      "ral.log",
 		LogClearDay:  1,
 	}

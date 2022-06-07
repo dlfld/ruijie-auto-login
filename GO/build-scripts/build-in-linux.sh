@@ -49,6 +49,7 @@ for os in ${lst_os[@]}; do
             fi
 
             zip ${zip_base_name}.zip ${path_config} ${output_file}
+            chmod 775 ${output_file}
             rm ${output_file}
         fi
         # echo "go build -o ${output_file} ${path_src}"

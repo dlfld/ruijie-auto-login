@@ -3,6 +3,7 @@ package logger
 import (
 	"fmt"
 	"os"
+	"strings"
 
 	utils "GO/src/utils"
 
@@ -22,7 +23,7 @@ func NewRuijieLogger(logpath string,
 	// if !strings.Contains(logpath, ".log") {
 	// 	logpath = logpath + ".log." + utils.GetNowTimeString()
 	// }
-	logpath = logpath + "." + utils.GetNowTimeString()
+	//logpath = logpath + "." + utils.GetNowTimeString()  // will
 
 	logger := go_logger.NewLogger()
 	logger.Detach("console")
@@ -59,8 +60,23 @@ func NewRuijieLogger(logpath string,
 	}
 }
 
-func IsExistsLog(logpath string, str_time string) bool {
-	filepath := fmt.Sprintf("%s.%s", logpath, str_time)
+// logger defualt strategy, filename format as "ral_20220101.log"
+func GetLoggerFilename(logpath string, str_time string) string {
+	i_point := strings.LastIndex(logpath, ".")
+
+	filename := logpath
+	file_ext := ""
+
+	if i_point != -1 {
+		filename = logpath[:i_point]
+		file_ext = logpath[i_point:]
+	}
+
+	filepath := fmt.Sprintf("%s_%s%s", filename, str_time, file_ext)
+	return filepath
+}
+
+func IsExistsLog(filepath string) bool {
 	_, err := os.Stat(filepath)
 	return err == nil || os.IsExist(err)
 }
@@ -69,17 +85,18 @@ func (ruijieLogger *RuijieLogger) Log(info string) {
 	str_clear := utils.GetDaysAgoTimeString(ruijieLogger.TimeClear) // clear time
 	// str_backup := utils.GetDaysAgoTimeString(ruijieLogger.TimeBackup) // backup time
 
-	if ruijieLogger.TimeClear > 0 && IsExistsLog(ruijieLogger.LogPath, str_clear) {
-		filepath_log := fmt.Sprintf("%s.%s", ruijieLogger.LogPath, str_clear)
+	clear_filepath := GetLoggerFilename(ruijieLogger.LogPath, str_clear)
+	ruijieLogger.Logger.Info(fmt.Sprintf("Clear path: %s", clear_filepath))
 
+	if ruijieLogger.TimeClear > 0 && IsExistsLog(clear_filepath) {
 		// clear log
-		err := os.Remove(filepath_log)
+		err := os.Remove(clear_filepath)
 		if err != nil {
 			// 删除失败
-			ruijieLogger.Logger.Error(fmt.Sprintf("Delete %s failed!", filepath_log))
+			ruijieLogger.Logger.Error(fmt.Sprintf("Delete %s failed!", clear_filepath))
 		} else {
 			// 删除成功
-			ruijieLogger.Logger.Info(fmt.Sprintf("Delete %s", filepath_log))
+			ruijieLogger.Logger.Info(fmt.Sprintf("Delete %s", clear_filepath))
 		}
 	}
 
